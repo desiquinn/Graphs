@@ -33,7 +33,10 @@ class Graph:
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # TODO
+        # same as get all edges, or get all adjacencies
+        # returns an agajency list
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
@@ -59,8 +62,8 @@ class Graph:
                 # Here is where we should print vertex bc it was just visted
                 print(vertex)
                 # get adjacent edges and add to list
-                for next_vert in self.vertices[vertex]:
-                    queue.enqueue(next_vert)
+                for neighbor in self.get_neighbors(vertex):
+                    queue.enqueue(neighbor)
         # goto top of loop - happens automatically
 
         """
@@ -99,8 +102,8 @@ class Graph:
                 # Here is where we should print vertex bc it was just visted
                 print(vertex)
                 # get adjacent edges and add to list
-                for next_vert in self.vertices[vertex]:
-                    stack.push(next_vert)
+                for neighbor in self.get_neighbors(vertex):
+                    stack.push(neighbor)
         # goto top of loop - happens automatically
 
 
