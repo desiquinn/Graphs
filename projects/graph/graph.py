@@ -119,7 +119,32 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # TODO
+        # Create a queue
+        queue = Queue()
+        # Create a visited set (use set because O(1) search)
+        visited = set()
+        # Add starting node to the queue
+        queue.enqueue(starting_vertex)
+        # While: queue is not empty
+        while queue.size() > 0:
+            # Pop first node out of queue
+            vertex = queue.dequeue()
+            # if not visted
+            if vertex not in visited:
+                # mark as visited
+                visited.add(vertex)
+                # Here is where we should print vertex bc it was just visted
+                print(vertex)
+                # Here is where you want to check if it's destination_vertex
+                if vertex is destination_vertex:
+                    # then return the path
+                    return visited
+                # get adjacent edges and add to list
+                else:
+                    for next_vert in self.vertices[vertex]:
+                        queue.enqueue(next_vert)
+        # goto top of loop - happens automatically
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -127,7 +152,32 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # TODO
+        # Create a stack
+        stack = Stack()
+        # Create a visited set (use set because O(1) search)
+        visited = set()
+        # Add starting node to the stack
+        stack.push(starting_vertex)
+        # While: stack is not empty
+        while stack.size() > 0:
+            # Pop first node out of stack
+            vertex = stack.pop()
+            # if not visted
+            if vertex not in visited:
+                # mark as visited
+                visited.add(vertex)
+                # Here is where we should print vertex bc it was just visted
+                print(vertex)
+                # Here is where you want to check if it's destination_vertex
+                if vertex is destination_vertex:
+                    # then return the path
+                    return visited
+                # get adjacent edges and add to list
+                else:
+                    for next_vert in self.vertices[vertex]:
+                        stack.push(next_vert)
+        # goto top of loop - happens automatically
 
     def dfs_recursive(self, starting_vertex):
         """
@@ -199,6 +249,7 @@ if __name__ == '__main__':
     Valid BFS path:
         [1, 2, 4, 6]
     '''
+    print("Starting bfs with 6 as destination")
     print(graph.bfs(1, 6))
 
     '''
@@ -206,5 +257,6 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print("Starting dfs with 6 as destination")
     print(graph.dfs(1, 6))
     print(graph.dfs_recursive(1, 6))
