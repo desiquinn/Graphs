@@ -78,7 +78,31 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
+        # Create a stack
+        stack = Stack()
+        # Create a visited set (use set because O(1) search)
+        visited = set()
+        # Add starting node to the stack
+        stack.push(starting_vertex)
+        # While: stack is not empty
+        while stack.size() > 0:
+            # Pop first node out of stack
+            # the difference between bft and dft is when you
+            # take the item out.  bft order doesn't matter
+            # with dft order it has to come out first
+            vertex = stack.pop()
+            # if not visted
+            if vertex not in visited:
+                # mark as visited
+                visited.add(vertex)
+                # Here is where we should print vertex bc it was just visted
+                print(vertex)
+                # get adjacent edges and add to list
+                for next_vert in self.vertices[vertex]:
+                    stack.push(next_vert)
+        # goto top of loop - happens automatically
+
 
     def dft_recursive(self, starting_vertex):
         """
@@ -157,6 +181,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
+    print("Starting bft")
     graph.bft(1)
 
     '''
@@ -166,6 +191,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print("Starting dft")
     graph.dft(1)
     graph.dft_recursive(1)
 
