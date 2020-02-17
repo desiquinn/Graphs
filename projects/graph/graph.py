@@ -13,13 +13,21 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # TODO
+        # vertex represented as a key:set pair
+        # key - node
+        # set - the value
+        self.vertices[vertex_id] = set()  
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("Can not create edge based on given vertices")
 
     def get_neighbors(self, vertex_id):
         """
@@ -32,7 +40,38 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # TODO
+        # Create a queue
+        # one letter variables are hard to debug, linter don't like them
+        queue = Queue()
+        # Create a visited set (use set because O(1) search)
+        visited = set()
+        # Add starting node to the queue
+        queue.enqueue(starting_vertex)
+        # While: queue is not empty
+        while queue.size() > 0:
+            # Pop first node out of queue
+            vertex = queue.dequeue()
+            # if not visted
+            if vertex not in visited:
+                # mark as visited
+                visited.add(vertex)
+                # Here is where we should print vertex bc it was just visted
+                print(vertex)
+                # get adjacent edges and add to list
+                for next_vert in self.vertices[vertex]:
+                    queue.enqueue(next_vert)
+        # goto top of loop - happens automatically
+
+        """
+        We have to figure out where to print each vertex
+        step1: is the problem something we can solve with graphs
+        step2: translate problem into graph language
+        step3: where do we insert some sort of function or do something
+        in it somewhere.
+        The question is, what is is asking us to do, and where do we want
+        to do it? Usually right after it's visited.
+        """
 
     def dft(self, starting_vertex):
         """
