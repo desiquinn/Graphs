@@ -141,26 +141,32 @@ class Graph:
         queue = Queue()
         # Create a visited set (use set because O(1) search)
         visited = set()
-        # Add starting node to the queue
-        queue.enqueue(starting_vertex)
+        # Add starting PATH to the queue
+        queue.enqueue([starting_vertex])
         # While: queue is not empty
         while queue.size() > 0:
-            # Pop first node out of queue
-            vertex = queue.dequeue()
-            # if not visted
-            if vertex not in visited:
+            # Pop first PATH out of queue
+            v_path = queue.dequeue()
+            # grab the last vertex from the path
+            vertex = v_path[-1]
+            # Here is where you want to check if it's destination_vertex
+            if vertex is destination_vertex:
+                # then return the path
+                return v_path
+            # check if not visted
+            elif vertex not in visited:
                 # mark as visited
                 visited.add(vertex)
                 # Here is where we should print vertex bc it was just visted
                 print(vertex)
-                # Here is where you want to check if it's destination_vertex
-                if vertex is destination_vertex:
-                    # then return the path
-                    return visited
-                # get adjacent edges and add to list
-                else:
-                    for next_vert in self.vertices[vertex]:
-                        queue.enqueue(next_vert)
+                # get adjacent edges and add to back of path
+                for neighbor in self.get_neighbors(vertex):
+                    # make a copy of the path
+                    new_path = v_path.copy()
+                    # add neighbor to the back of that path
+                    new_path.append(neighbor)
+                    # add the path to the queue
+                    queue.enqueue(new_path)
         # goto top of loop - happens automatically
 
     def dfs(self, starting_vertex, destination_vertex):
