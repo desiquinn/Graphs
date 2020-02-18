@@ -142,6 +142,7 @@ class Graph:
         # Create a visited set (use set because O(1) search)
         visited = set()
         # Add starting PATH to the queue
+        #need to use a list because for a path order matters
         queue.enqueue([starting_vertex])
         # While: queue is not empty
         while queue.size() > 0:
@@ -150,7 +151,7 @@ class Graph:
             # grab the last vertex from the path
             vertex = v_path[-1]
             # Here is where you want to check if it's destination_vertex
-            if vertex is destination_vertex:
+            if vertex == destination_vertex:
                 # then return the path
                 return v_path
             # check if not visted
@@ -180,29 +181,35 @@ class Graph:
         stack = Stack()
         # Create a visited set (use set because O(1) search)
         visited = set()
-        # Add starting node to the stack
-        stack.push(starting_vertex)
+        # Add starting PATH to the stack
+        stack.push([starting_vertex])
         # While: stack is not empty
         while stack.size() > 0:
-            # Pop first node out of stack
-            vertex = stack.pop()
-            # if not visted
-            if vertex not in visited:
+            # Pop PATH out of stack
+            v_path = stack.pop()
+            # grab the last vertex from the path
+            vertex = v_path[-1]
+            # Here is where you want to check if it's destination_vertex
+            if vertex is destination_vertex:
+                # then return the path
+                return v_path
+            # check if not visted
+            elif vertex not in visited:
                 # mark as visited
                 visited.add(vertex)
                 # Here is where we should print vertex bc it was just visted
                 print(vertex)
-                # Here is where you want to check if it's destination_vertex
-                if vertex is destination_vertex:
-                    # then return the path
-                    return visited
-                # get adjacent edges and add to list
-                else:
-                    for next_vert in self.vertices[vertex]:
-                        stack.push(next_vert)
+                # get adjacent edges and add to back of path
+                for neighbor in self.get_neighbors(vertex):
+                    # make a copy of the path
+                    new_path = v_path.copy()
+                    # add neighbor to the back of that path
+                    new_path.append(neighbor)
+                    # add the path to the queue
+                    stack.push(new_path)
         # goto top of loop - happens automatically
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, starting_vertex, destination_vertex, visited=None, v_path=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -210,7 +217,34 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # TODO
+        # initialize visted and v_path first and should only run on 1st pass
+        if visited == None:
+            visited = set()
+        if v_path == None:
+            #add starting vertex path to path
+            v_path = [ starting_vertex ]
+        # Check if the node is the destination
+        if starting_vertex == destination_vertex:
+            # return the path?
+            return v_path
+        #if not ...
+        elif starting_vertex not in visited:
+            # grab last vertex from path
+            vertex = v_path[-1]
+            # mark it as visited
+            visited.add(vertex)
+            # print
+            print(vertex)
+            # call Dft_recursive on neightbors
+            for neighbor in self.get_neighbors(vertex):
+                if neighbor not in visited:
+                    # make copy of path
+                    new_path = v_path.copy()
+                    # add neighbor to the back of the path
+                    new_path.append(neighbor)
+                    # send neighbor back into function
+                    self.dfs_recursive(neighbor, destination_vertex, visited, new_path)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -283,4 +317,5 @@ if __name__ == '__main__':
     '''
     print("Starting dfs with 6 as destination")
     print(graph.dfs(1, 6))
+    print("Starting dfs_resursive with 6 as destination")
     print(graph.dfs_recursive(1, 6))
