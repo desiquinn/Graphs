@@ -107,14 +107,15 @@ class Graph:
         # goto top of loop - happens automatically
 
 
-    def dft_recursive(self, starting_vertex, visited=set()):
+    def dft_recursive(self, starting_vertex, visited= None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
-        # visited = set()
+        if visited == None:
+            visited = set()
         # Check if the node is visited
         if starting_vertex in visited:
             return None
@@ -127,7 +128,7 @@ class Graph:
             # call Dft_recursive on neightbors
             for neighbor in self.get_neighbors(starting_vertex):
                 if neighbor not in visited:
-                    self.dft_recursive(neighbor)
+                    self.dft_recursive(neighbor, visited)
 
 
     def bfs(self, starting_vertex, destination_vertex):
@@ -219,33 +220,35 @@ class Graph:
         """
         # TODO
         # initialize visted and v_path first and should only run on 1st pass
-        if visited == None:
+        if visited is None:
             visited = set()
-        if v_path == None:
+        if v_path is None:
             #add starting vertex path to path
             v_path = [ starting_vertex ]
-        # Check if the node is the destination
-        if starting_vertex == destination_vertex:
-            # return the path?
-            return v_path
-        #if not ...
-        elif starting_vertex not in visited:
-            # grab last vertex from path
-            vertex = v_path[-1]
-            # mark it as visited
-            visited.add(vertex)
-            # print
-            print(vertex)
-            # call Dft_recursive on neightbors
-            for neighbor in self.get_neighbors(vertex):
-                if neighbor not in visited:
-                    # make copy of path
-                    new_path = v_path.copy()
-                    # add neighbor to the back of the path
-                    new_path.append(neighbor)
-                    # send neighbor back into function
-                    self.dfs_recursive(neighbor, destination_vertex, visited, new_path)
 
+        #if not visited
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            # grab last vertex from path
+            # vertex = v_path[-1]
+            # Check if the node is the destination
+            if starting_vertex == destination_vertex:
+                # return the path?
+                return v_path
+            # mark it as visited
+            # print
+            print(starting_vertex)
+            # call Dft_recursive on neightbors
+            for neighbor in self.get_neighbors(starting_vertex):
+                if neighbor not in visited:
+                    # # make copy of path
+                    copy_path = v_path.copy()
+                    # add neighbor to the back of the path
+                    copy_path.append(neighbor)
+                    # send neighbor back into function
+                    new_path = self.dfs_recursive(neighbor, destination_vertex, visited, copy_path)
+                    if new_path is not None:
+                        return new_path
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
